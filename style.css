@@ -988,6 +988,72 @@ body:not(.dark-mode) .moon-icon {
 }
 
 /* ============================================
+   Badges Section
+   ============================================ */
+.badges {
+    background: var(--bg-primary);
+}
+
+.badges-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 2rem 0;
+}
+
+.holopin-link {
+    display: inline-block;
+    transition: all var(--transition-base);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.holopin-link::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    opacity: 0;
+    border-radius: 16px;
+    transition: opacity var(--transition-base);
+    z-index: -1;
+    filter: blur(15px);
+}
+
+.holopin-link:hover::before {
+    opacity: 0.4;
+}
+
+.holopin-link:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+.holopin-board {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    background: var(--bg-card);
+}
+
+.holopin-link:hover .holopin-board {
+    box-shadow: var(--shadow-xl);
+}
+
+/* Responsive adjustments for badges */
+@media (max-width: 768px) {
+    .badges-container {
+        padding: 1rem 0;
+    }
+    
+    .holopin-board {
+        border-radius: 8px;
+    }
+}
+
+/* ============================================
    Contact Section
    ============================================ */
 .contact {
