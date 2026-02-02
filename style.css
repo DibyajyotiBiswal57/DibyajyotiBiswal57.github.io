@@ -992,6 +992,7 @@ body:not(.dark-mode) .moon-icon {
    ============================================ */
 .badges {
     background: var(--bg-primary);
+    --badge-border-radius: 16px;
 }
 
 .badges-container {
@@ -1003,7 +1004,7 @@ body:not(.dark-mode) .moon-icon {
 .holopin-link {
     display: inline-block;
     transition: all var(--transition-base);
-    border-radius: 16px;
+    border-radius: var(--badge-border-radius);
     overflow: hidden;
     position: relative;
 }
@@ -1014,7 +1015,7 @@ body:not(.dark-mode) .moon-icon {
     inset: -4px;
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     opacity: 0;
-    border-radius: 16px;
+    border-radius: var(--badge-border-radius);
     transition: opacity var(--transition-base);
     z-index: -1;
     filter: blur(15px);
@@ -1044,20 +1045,12 @@ body:not(.dark-mode) .moon-icon {
 
 /* Responsive adjustments for badges */
 @media (max-width: 768px) {
+    .badges {
+        --badge-border-radius: 8px;
+    }
+    
     .badges-container {
         padding: 1rem 0;
-    }
-    
-    .holopin-link {
-        border-radius: 8px;
-    }
-    
-    .holopin-link::before {
-        border-radius: 8px;
-    }
-    
-    .holopin-board {
-        border-radius: 8px;
     }
 }
 
