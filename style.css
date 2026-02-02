@@ -1048,6 +1048,14 @@ body:not(.dark-mode) .moon-icon {
         padding: 1rem 0;
     }
     
+    .holopin-link {
+        border-radius: 8px;
+    }
+    
+    .holopin-link::before {
+        border-radius: 8px;
+    }
+    
     .holopin-board {
         border-radius: 8px;
     }
