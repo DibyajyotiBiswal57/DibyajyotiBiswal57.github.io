@@ -1033,7 +1033,7 @@ body:not(.dark-mode) .moon-icon {
     max-width: 100%;
     width: 100%;
     height: auto;
-    border-radius: 12px;
+    border-radius: var(--badge-border-radius);
     box-shadow: var(--shadow-md);
     transition: all var(--transition-base);
     background: var(--bg-card);
