@@ -52,7 +52,7 @@
   <a href="https://twitter.com/coder99957" target="blank"><img align="center" src="https://skillicons.dev/icons?i=twitter" alt="coder99957" height="40" width="40" /></a>
   <a href="https://youtube.com/coder99957" target="blank"><img align="center" src="https://cdn.simpleicons.org/youtube/FF0000" alt="coder99957" height="40" width="40" /></a>
   <a href="https://leetcode.com/coder99957" target="blank"><img align="center" src="https://cdn.simpleicons.org/leetcode/FFA116" alt="coder99957" height="40" width="40" /></a>
-  <a href="mailto:coder99957@gmail.com" target="blank"><img align="center" src="https://skillicons.dev/icons?i=gmail" alt="coder99957@gmail.com" height="40" width="40" /></a>
+  <a href="mailto:coder99957@dibyajyoti.is-a.dev" target="blank"><img align="center" src="https://skillicons.dev/icons?i=gmail" alt="coder99957@gmail.com" height="40" width="40" /></a>
 </p>
 
 ## Languages and Tools
