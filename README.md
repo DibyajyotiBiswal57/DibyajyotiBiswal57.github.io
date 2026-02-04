@@ -32,7 +32,7 @@
 
 - 👨‍💻 All of my projects are available on **[GitHub](https://github.com/DibyajyotiBiswal57?tab=repositories).**
 
-- 🌐 Check out my **[portfolio website](https://dibyajyotibiswal57.github.io/DibyajyotiBiswal57)** and **[programs collection](https://dibyajyotibiswal57.github.io/programs/).**
+- 🌐 Check out my **[portfolio website](https://dibyajyoti.is-a.dev)** and **[programs collection](https://dibyajyotibiswal57.github.io/programs/).**
 
 - 🤝 I'm looking for help with **living life and time management. Pls help me.**
 
