@@ -427,7 +427,6 @@ body {
         iconScale 2s ease-in-out forwards,
         iconRotate 3s ease-in-out 2s infinite,
         iconGlow 2s ease-in-out 2s infinite alternate;
-    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8));
     will-change: transform, opacity, filter;
 }
 
