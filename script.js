@@ -25,11 +25,17 @@
     const isMobile = window.innerWidth <= 768;
     const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
     
+    // Performance constants
+    const PARTICLE_COUNT_DESKTOP = 120;
+    const PARTICLE_COUNT_MOBILE = 60;
+    const SHOOTING_STAR_COUNT_DESKTOP = 3;
+    const SHOOTING_STAR_COUNT_MOBILE = 2;
+    const SHOOTING_STAR_SPAWN_RATE_DESKTOP = 0.02; // 2% per frame
+    const SHOOTING_STAR_SPAWN_RATE_MOBILE = 0.01;  // 1% per frame
+    
     // Adjust particle count based on device
-    let particleCount = 120;
-    if (isMobile) {
-        particleCount = 60;
-    } else if (isLowEnd) {
+    let particleCount = isMobile ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
+    if (isLowEnd && !isMobile) {
         particleCount = 80;
     }
     
@@ -178,7 +184,7 @@
         }
         
         // Create initial shooting stars (fewer on mobile)
-        const shootingStarCount = isMobile ? 2 : 3;
+        const shootingStarCount = isMobile ? SHOOTING_STAR_COUNT_MOBILE : SHOOTING_STAR_COUNT_DESKTOP;
         for (let i = 0; i < shootingStarCount; i++) {
             shootingStars.push(new ShootingStar());
         }
@@ -236,8 +242,7 @@
                 
                 // Reset shooting star with controlled probability
                 if (!star.active) {
-                    // Reduce probability on mobile (1% vs 2%)
-                    const probability = isMobile ? 0.01 : 0.02;
+                    const probability = isMobile ? SHOOTING_STAR_SPAWN_RATE_MOBILE : SHOOTING_STAR_SPAWN_RATE_DESKTOP;
                     if (Math.random() < probability) {
                         star.reset();
                     }
@@ -495,11 +500,6 @@ const specialObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            
-            // For section titles, trigger underline animation
-            if (entry.target.classList.contains('section-title')) {
-                entry.target.classList.add('visible');
-            }
             
             // Unobserve after animation for performance
             specialObserver.unobserve(entry.target);

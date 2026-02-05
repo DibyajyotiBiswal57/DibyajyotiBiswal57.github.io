@@ -38,11 +38,6 @@
     /* Splash Screen Variables */
     --splash-duration: 10000ms;
     --splash-fade-duration: 1000ms;
-    --splash-phase-1: 2000ms;
-    --splash-phase-2: 4000ms;
-    --splash-phase-3: 6000ms;
-    --splash-phase-4: 8000ms;
-    --splash-phase-5: 10000ms;
 }
 
 /* Dark Mode Colors - Blue Theme */
@@ -204,16 +199,19 @@ body {
 .light-ray:nth-child(1) {
     transform: translate(-50%, -50%) rotate(30deg);
     animation: lightRaySweep 8s ease-in-out 4s infinite;
+    --rotation: 30deg;
 }
 
 .light-ray:nth-child(2) {
     transform: translate(-50%, -50%) rotate(150deg);
     animation: lightRaySweep 8s ease-in-out 4.5s infinite;
+    --rotation: 150deg;
 }
 
 .light-ray:nth-child(3) {
     transform: translate(-50%, -50%) rotate(270deg);
     animation: lightRaySweep 8s ease-in-out 5s infinite;
+    --rotation: 270deg;
 }
 
 @keyframes lightRaySweep {
