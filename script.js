@@ -31,12 +31,15 @@
     const PARTICLE_COUNT_LOW_END = 80;
     const SHOOTING_STAR_COUNT_DESKTOP = 3;
     const SHOOTING_STAR_COUNT_MOBILE = 2;
-    const SHOOTING_STAR_SPAWN_RATE_DESKTOP = 0.02; // 2% per frame
-    const SHOOTING_STAR_SPAWN_RATE_MOBILE = 0.01;  // 1% per frame
+    const SHOOTING_STAR_SPAWN_RATE_DESKTOP = 0.02; // 2% chance per frame (~1.2 stars/sec at 60fps)
+    const SHOOTING_STAR_SPAWN_RATE_MOBILE = 0.01;  // 1% chance per frame (~0.6 stars/sec at 60fps)
     const EXPLOSION_FORCE = 20;
     const MIN_EXPLOSION_DISTANCE = 50;
     const EXPLOSION_DURATION_FRAMES = 30;
     const EXPLOSION_FADE_RATE = 0.03;
+    const RESIZE_DEBOUNCE_DELAY = 250; // milliseconds
+    const PARTICLE_COLOR_GREEN_RATIO = 0.8;
+    const PARTICLE_COLOR_BLUE = 255;
     
     // Adjust particle count based on device
     let particleCount = isMobile ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
@@ -104,8 +107,8 @@
             }
             
             draw() {
-                const brightness = this.depth * 255;
-                ctx.fillStyle = `rgba(${brightness}, ${brightness * 0.8}, 255, ${this.opacity})`;
+                const brightness = this.depth * PARTICLE_COLOR_BLUE;
+                ctx.fillStyle = `rgba(${brightness}, ${brightness * PARTICLE_COLOR_GREEN_RATIO}, ${PARTICLE_COLOR_BLUE}, ${this.opacity})`;
                 
                 // Only apply shadow on desktop for performance
                 if (!isMobile && !isLowEnd) {
@@ -266,7 +269,7 @@
             resizeTimeout = setTimeout(() => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-            }, 250);
+            }, RESIZE_DEBOUNCE_DELAY);
         });
         
         // Cleanup on splash hide
