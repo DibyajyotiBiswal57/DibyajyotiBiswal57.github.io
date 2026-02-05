@@ -1,9 +1,10 @@
 // ============================================
-// Splash Screen with Particle Animation
+// Advanced Splash Screen with Complex Particle System
 // ============================================
 (function() {
     const splashScreen = document.getElementById('splash-screen');
-    const skipButton = document.getElementById('skip-intro');
+    const skipButton = document.getElementById('skip-btn');
+    const enterButton = document.getElementById('enter-btn');
     const canvas = document.getElementById('particle-canvas');
     
     // Check if splash has been shown this session
@@ -20,30 +21,63 @@
         return;
     }
     
-    // Particle animation
+    // Detect mobile/low-end devices
+    const isMobile = window.innerWidth <= 768;
+    const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    
+    // Adjust particle count based on device
+    let particleCount = 120;
+    if (isMobile) {
+        particleCount = 60;
+    } else if (isLowEnd) {
+        particleCount = 80;
+    }
+    
+    // Advanced Particle System
     if (canvas) {
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true });
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         
         const particles = [];
-        const particleCount = 150;
+        const shootingStars = [];
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+        let animationId;
         
+        // Particle class with enhanced properties
         class Particle {
             constructor() {
+                this.reset();
+                // Start with random positions for initial spread
+                this.y = Math.random() * canvas.height;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            
+            reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
                 this.opacity = Math.random() * 0.5 + 0.3;
-                this.twinkle = Math.random() * 0.02 + 0.01;
+                this.twinkle = Math.random() * 0.015 + 0.005;
                 this.twinkleDirection = 1;
+                // Depth for parallax effect
+                this.depth = Math.random() * 0.5 + 0.5;
             }
             
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
+            update(mouseInfluence = false) {
+                this.x += this.speedX * this.depth;
+                this.y += this.speedY * this.depth;
+                
+                // Parallax effect based on mouse position
+                if (mouseInfluence && !isMobile) {
+                    const dx = mouseX - canvas.width / 2;
+                    const dy = mouseY - canvas.height / 2;
+                    this.x += dx * 0.00005 * (1 - this.depth);
+                    this.y += dy * 0.00005 * (1 - this.depth);
+                }
                 
                 // Wrap around screen
                 if (this.x > canvas.width) this.x = 0;
@@ -59,14 +93,76 @@
             }
             
             draw() {
-                ctx.fillStyle = `rgba(147, 197, 253, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                const brightness = this.depth * 255;
+                ctx.fillStyle = `rgba(${brightness}, ${brightness * 0.8}, 255, ${this.opacity})`;
+                ctx.shadowBlur = 15 * this.depth;
+                ctx.shadowColor = `rgba(96, 165, 250, ${this.opacity * 0.8})`;
                 
-                // Add glow effect
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = `rgba(96, 165, 250, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * this.depth, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        // Shooting Star class
+        class ShootingStar {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height * 0.5; // Top half
+                this.length = Math.random() * 80 + 60;
+                this.speed = Math.random() * 8 + 8;
+                this.angle = Math.random() * Math.PI / 6 + Math.PI / 4; // 45-75 degrees
+                this.opacity = 1;
+                this.active = true;
+                this.trail = [];
+            }
+            
+            update() {
+                if (!this.active) return;
+                
+                this.trail.unshift({ x: this.x, y: this.y });
+                if (this.trail.length > 15) this.trail.pop();
+                
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.opacity -= 0.008;
+                
+                if (this.opacity <= 0 || this.x > canvas.width || this.y > canvas.height) {
+                    this.active = false;
+                }
+            }
+            
+            draw() {
+                if (!this.active || this.opacity <= 0) return;
+                
+                // Draw trail
+                for (let i = 0; i < this.trail.length; i++) {
+                    const point = this.trail[i];
+                    const trailOpacity = this.opacity * (1 - i / this.trail.length);
+                    
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${trailOpacity})`;
+                    ctx.lineWidth = 2 * (1 - i / this.trail.length);
+                    
+                    if (i > 0) {
+                        const prevPoint = this.trail[i - 1];
+                        ctx.beginPath();
+                        ctx.moveTo(prevPoint.x, prevPoint.y);
+                        ctx.lineTo(point.x, point.y);
+                        ctx.stroke();
+                    }
+                }
+                
+                // Draw star head with glow
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
         
@@ -75,75 +171,161 @@
             particles.push(new Particle());
         }
         
+        // Create initial shooting stars
+        for (let i = 0; i < 3; i++) {
+            shootingStars.push(new ShootingStar());
+        }
+        
+        // Mouse tracking for parallax (only on desktop)
+        if (!isMobile) {
+            canvas.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+        }
+        
         // Animation loop
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
+            // Update and draw particles
             particles.forEach(particle => {
-                particle.update();
+                particle.update(!isMobile);
                 particle.draw();
             });
             
             // Draw connections between nearby particles
+            const maxDistance = isMobile ? 80 : 120;
+            const maxConnections = isMobile ? 2 : 3;
+            
             for (let i = 0; i < particles.length; i++) {
+                let connectionCount = 0;
                 for (let j = i + 1; j < particles.length; j++) {
+                    if (connectionCount >= maxConnections) break;
+                    
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     
-                    if (distance < 100) {
-                        ctx.strokeStyle = `rgba(96, 165, 250, ${0.15 * (1 - distance / 100)})`;
+                    if (distance < maxDistance) {
+                        const opacity = 0.15 * (1 - distance / maxDistance) * 
+                                       Math.min(particles[i].opacity, particles[j].opacity);
+                        ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`;
                         ctx.lineWidth = 0.5;
+                        ctx.shadowBlur = 0;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
+                        connectionCount++;
                     }
                 }
             }
             
-            requestAnimationFrame(animate);
+            // Update and draw shooting stars
+            shootingStars.forEach((star, index) => {
+                star.update();
+                star.draw();
+                
+                // Reset shooting star or create new one
+                if (!star.active) {
+                    if (Math.random() < 0.02) { // 2% chance per frame
+                        star.reset();
+                    }
+                }
+            });
+            
+            animationId = requestAnimationFrame(animate);
         }
         
         animate();
         
         // Resize canvas on window resize
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }, 250);
         });
-    }
-    
-    // Function to hide splash screen
-    function hideSplash() {
-        splashScreen.classList.add('fade-out');
-        setTimeout(() => {
-            splashScreen.style.display = 'none';
-            sessionStorage.setItem('splashShown', 'true');
-        }, 800);
-    }
-    
-    // Auto-hide after duration (read from CSS variable)
-    const splashDuration = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--splash-duration')) || 3500;
-    const autoHideTimeout = setTimeout(hideSplash, splashDuration);
-    
-    // Skip button functionality
-    if (skipButton) {
-        skipButton.addEventListener('click', () => {
-            clearTimeout(autoHideTimeout);
-            hideSplash();
-        });
-    }
-    
-    // Allow Enter key to skip when splash is visible
-    document.addEventListener('keydown', function skipOnKey(e) {
-        if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
-            clearTimeout(autoHideTimeout);
-            hideSplash();
-            document.removeEventListener('keydown', skipOnKey);
+        
+        // Cleanup on splash hide
+        function stopAnimation() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            // Clear will-change
+            if (splashScreen) {
+                splashScreen.style.willChange = 'auto';
+            }
         }
-    });
+        
+        // Function to hide splash screen with particle explosion effect
+        function hideSplash() {
+            stopAnimation();
+            
+            // Particle explosion effect
+            particles.forEach(particle => {
+                const dx = particle.x - canvas.width / 2;
+                const dy = particle.y - canvas.height / 2;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const force = 20 / Math.max(distance, 50);
+                particle.speedX = (dx / distance) * force;
+                particle.speedY = (dy / distance) * force;
+            });
+            
+            // Quick explosion animation
+            let explosionFrames = 30;
+            function explode() {
+                if (explosionFrames-- > 0) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(particle => {
+                        particle.update(false);
+                        particle.opacity -= 0.03;
+                        particle.draw();
+                    });
+                    requestAnimationFrame(explode);
+                } else {
+                    splashScreen.classList.add('fade-out');
+                    setTimeout(() => {
+                        splashScreen.style.display = 'none';
+                        sessionStorage.setItem('splashShown', 'true');
+                    }, 1000);
+                }
+            }
+            explode();
+        }
+        
+        // Auto-hide after duration
+        const splashDuration = parseInt(getComputedStyle(document.documentElement)
+            .getPropertyValue('--splash-duration')) || 10000;
+        const autoHideTimeout = setTimeout(hideSplash, splashDuration);
+        
+        // Skip and Enter button functionality
+        if (skipButton) {
+            skipButton.addEventListener('click', () => {
+                clearTimeout(autoHideTimeout);
+                hideSplash();
+            });
+        }
+        
+        if (enterButton) {
+            enterButton.addEventListener('click', () => {
+                clearTimeout(autoHideTimeout);
+                hideSplash();
+            });
+        }
+        
+        // Allow Enter key to skip
+        document.addEventListener('keydown', function skipOnKey(e) {
+            if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
+                clearTimeout(autoHideTimeout);
+                hideSplash();
+                document.removeEventListener('keydown', skipOnKey);
+            }
+        });
+    }
 })();
 
 // ============================================
@@ -298,6 +480,35 @@ document.querySelectorAll('.about-grid .about-card').forEach((card, index) => {
 document.querySelectorAll('.skills-grid .skill-item').forEach((item, index) => {
     item.style.setProperty('--index', index);
 });
+
+// Enhanced Intersection Observer for special elements
+const specialObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            
+            // For section titles, trigger underline animation
+            if (entry.target.classList.contains('section-title')) {
+                entry.target.classList.add('visible');
+            }
+            
+            // Unobserve after animation for performance
+            specialObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+
+// Observe special elements
+document.querySelectorAll('.section-title, .contribution-3d, .contribution-graph, .badges-container, .social-links').forEach(element => {
+    specialObserver.observe(element);
+});
+
+// Add entrance animation class after splash screen
+setTimeout(() => {
+    document.querySelectorAll('.nav, .hero-title, .hero-name, .typing-container, .hero-quote, .hero-buttons').forEach(element => {
+        element.style.visibility = 'visible';
+    });
+}, 100);
 
 // ============================================
 // Dynamic Year in Footer
