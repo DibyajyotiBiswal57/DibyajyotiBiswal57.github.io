@@ -419,6 +419,56 @@ body {
     50% { background-position: 100% 50%; }
 }
 
+/* Splash Icon Styles */
+.splash-icon {
+    color: #60a5fa;
+    opacity: 0;
+    animation: 
+        iconScale 2s ease-in-out forwards,
+        iconRotate 3s ease-in-out 2s infinite,
+        iconGlow 2s ease-in-out 2s infinite alternate;
+    will-change: transform, opacity, filter;
+}
+
+@keyframes iconScale {
+    0% { 
+        transform: scale(0) rotate(0deg); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: scale(1.2) rotate(180deg); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: scale(1) rotate(360deg); 
+        opacity: 1; 
+    }
+}
+
+@keyframes iconRotate {
+    0%, 100% { 
+        transform: rotate(0deg) translateY(0); 
+    }
+    25% {
+        transform: rotate(5deg) translateY(-5px);
+    }
+    50% { 
+        transform: rotate(0deg) translateY(0); 
+    }
+    75% {
+        transform: rotate(-5deg) translateY(-5px);
+    }
+}
+
+@keyframes iconGlow {
+    0% { 
+        filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5)); 
+    }
+    100% { 
+        filter: drop-shadow(0 0 30px rgba(59, 130, 246, 1)); 
+    }
+}
+
 /* Splash Subtitle */
 .splash-subtitle {
     font-size: 1.5rem;
@@ -1621,8 +1671,9 @@ body:not(.dark-mode) .moon-icon {
 
 .social-links {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
 }
 
@@ -1634,7 +1685,7 @@ body:not(.dark-mode) .moon-icon {
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
     border-radius: 50%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     color: var(--text-primary);
@@ -1683,6 +1734,7 @@ body:not(.dark-mode) .moon-icon {
 }
 
 .social-link svg {
+    display: block;
     width: 32px;
     height: 32px;
     transition: all var(--transition-base);
