@@ -134,6 +134,7 @@ body {
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    animation: glow 3s ease-in-out infinite;
 }
 
 .splash-letter {
@@ -236,10 +237,6 @@ body {
     50% {
         filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.8));
     }
-}
-
-.splash-logo {
-    animation: glow 3s ease-in-out infinite;
 }
 
 a {
@@ -1540,9 +1537,9 @@ body:not(.dark-mode) .moon-icon {
     *,
     *::before,
     *::after {
-        animation-duration: 0.01ms !important;
+        animation-duration: 0s !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: 0s !important;
         scroll-behavior: auto !important;
     }
     

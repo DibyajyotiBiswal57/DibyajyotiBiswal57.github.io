@@ -123,8 +123,9 @@
         }, 800);
     }
     
-    // Auto-hide after duration
-    const splashDuration = 3500;
+    // Auto-hide after duration (read from CSS variable)
+    const splashDuration = parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue('--splash-duration')) || 3500;
     const autoHideTimeout = setTimeout(hideSplash, splashDuration);
     
     // Skip button functionality
@@ -135,9 +136,9 @@
         });
     }
     
-    // Also allow Enter or Space key to skip
+    // Allow Enter key to skip when splash is visible
     document.addEventListener('keydown', function skipOnKey(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
             clearTimeout(autoHideTimeout);
             hideSplash();
             document.removeEventListener('keydown', skipOnKey);
