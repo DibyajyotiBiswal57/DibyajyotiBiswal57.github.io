@@ -95,8 +95,14 @@
             draw() {
                 const brightness = this.depth * 255;
                 ctx.fillStyle = `rgba(${brightness}, ${brightness * 0.8}, 255, ${this.opacity})`;
-                ctx.shadowBlur = 15 * this.depth;
-                ctx.shadowColor = `rgba(96, 165, 250, ${this.opacity * 0.8})`;
+                
+                // Only apply shadow on desktop for performance
+                if (!isMobile && !isLowEnd) {
+                    ctx.shadowBlur = 10 * this.depth;
+                    ctx.shadowColor = `rgba(96, 165, 250, ${this.opacity * 0.6})`;
+                } else {
+                    ctx.shadowBlur = 0;
+                }
                 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size * this.depth, 0, Math.PI * 2);
@@ -171,8 +177,9 @@
             particles.push(new Particle());
         }
         
-        // Create initial shooting stars
-        for (let i = 0; i < 3; i++) {
+        // Create initial shooting stars (fewer on mobile)
+        const shootingStarCount = isMobile ? 2 : 3;
+        for (let i = 0; i < shootingStarCount; i++) {
             shootingStars.push(new ShootingStar());
         }
         
@@ -227,9 +234,11 @@
                 star.update();
                 star.draw();
                 
-                // Reset shooting star or create new one
+                // Reset shooting star with controlled probability
                 if (!star.active) {
-                    if (Math.random() < 0.02) { // 2% chance per frame
+                    // Reduce probability on mobile (1% vs 2%)
+                    const probability = isMobile ? 0.01 : 0.02;
+                    if (Math.random() < probability) {
                         star.reset();
                     }
                 }

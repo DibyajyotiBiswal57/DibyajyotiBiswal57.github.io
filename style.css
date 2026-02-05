@@ -241,12 +241,6 @@ body {
 }
 
 .geo-triangle {
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 86.6px solid rgba(96, 165, 250, 0.15);
-    border: none;
     width: 100px;
     height: 100px;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
@@ -457,7 +451,7 @@ body {
     background: rgba(96, 165, 250, 0.2);
     border-color: #60a5fa;
     color: #ffffff;
-    transform: translateY(15px) scale(1.05);
+    transform: translateY(-5px) scale(1.05);
     box-shadow: 0 15px 40px rgba(96, 165, 250, 0.4),
                 0 0 60px rgba(96, 165, 250, 0.3);
 }
@@ -2147,10 +2141,6 @@ body:not(.dark-mode) .moon-icon {
     .geo-circle,
     .geo-square {
         opacity: 0.05;
-    }
-    
-    .light-ray {
-        opacity: 0 !important;
     }
 }
 
