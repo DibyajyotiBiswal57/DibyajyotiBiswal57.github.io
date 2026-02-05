@@ -28,21 +28,41 @@
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen" class="splash-screen">
-        <div class="splash-content">
-            <canvas id="particle-canvas" class="particle-canvas"></canvas>
-            <div class="splash-logo">
-                <span class="splash-letter">D</span>
-                <span class="splash-letter">B</span>
-            </div>
-            <div class="splash-tagline">Developer Portfolio</div>
-            <button id="skip-intro" class="skip-intro" aria-label="Skip intro">
-                <span>Enter Site</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </button>
+        <canvas id="particle-canvas" class="particle-canvas"></canvas>
+        <div class="splash-vignette"></div>
+        <div class="splash-grain"></div>
+        <div class="splash-light-rays">
+            <div class="light-ray"></div>
+            <div class="light-ray"></div>
+            <div class="light-ray"></div>
         </div>
+        <div class="splash-geometric-shapes">
+            <div class="geo-shape geo-triangle"></div>
+            <div class="geo-shape geo-circle"></div>
+            <div class="geo-shape geo-square"></div>
+        </div>
+        <div class="splash-content">
+            <div class="logo-container">
+                <div class="logo-glow-effect"></div>
+                <div class="splash-logo">
+                    <span class="splash-letter">D</span>
+                    <span class="splash-letter">B</span>
+                </div>
+                <div class="splash-subtitle">Portfolio</div>
+            </div>
+            <button id="enter-btn" class="enter-btn">
+                <span class="btn-text">Enter Experience</span>
+                <span class="btn-glow"></span>
+            </button>
+            <div class="progress-indicator">
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+        <button id="skip-btn" class="skip-btn" aria-label="Skip intro">Skip</button>
     </div>
 
     <!-- Navigation -->
