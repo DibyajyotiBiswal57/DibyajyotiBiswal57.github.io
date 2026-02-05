@@ -23,20 +23,25 @@
     
     // Detect mobile/low-end devices
     const isMobile = window.innerWidth <= 768;
-    const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    const isLowEnd = !navigator.hardwareConcurrency || navigator.hardwareConcurrency <= 4;
     
     // Performance constants
     const PARTICLE_COUNT_DESKTOP = 120;
     const PARTICLE_COUNT_MOBILE = 60;
+    const PARTICLE_COUNT_LOW_END = 80;
     const SHOOTING_STAR_COUNT_DESKTOP = 3;
     const SHOOTING_STAR_COUNT_MOBILE = 2;
     const SHOOTING_STAR_SPAWN_RATE_DESKTOP = 0.02; // 2% per frame
     const SHOOTING_STAR_SPAWN_RATE_MOBILE = 0.01;  // 1% per frame
+    const EXPLOSION_FORCE = 20;
+    const MIN_EXPLOSION_DISTANCE = 50;
+    const EXPLOSION_DURATION_FRAMES = 30;
+    const EXPLOSION_FADE_RATE = 0.03;
     
     // Adjust particle count based on device
     let particleCount = isMobile ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
     if (isLowEnd && !isMobile) {
-        particleCount = 80;
+        particleCount = PARTICLE_COUNT_LOW_END;
     }
     
     // Advanced Particle System
@@ -284,19 +289,19 @@
                 const dx = particle.x - canvas.width / 2;
                 const dy = particle.y - canvas.height / 2;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const force = 20 / Math.max(distance, 50);
+                const force = EXPLOSION_FORCE / Math.max(distance, MIN_EXPLOSION_DISTANCE);
                 particle.speedX = (dx / distance) * force;
                 particle.speedY = (dy / distance) * force;
             });
             
             // Quick explosion animation
-            let explosionFrames = 30;
+            let explosionFrames = EXPLOSION_DURATION_FRAMES;
             function explode() {
                 if (explosionFrames-- > 0) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     particles.forEach(particle => {
                         particle.update(false);
-                        particle.opacity -= 0.03;
+                        particle.opacity -= EXPLOSION_FADE_RATE;
                         particle.draw();
                     });
                     requestAnimationFrame(explode);

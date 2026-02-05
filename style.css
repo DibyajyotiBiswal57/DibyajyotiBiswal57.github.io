@@ -196,29 +196,43 @@ body {
     opacity: 0;
 }
 
+@keyframes lightRaySweep {
+    0%, 100% { 
+        opacity: 0; 
+    }
+    10% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+    90% { opacity: 0.5; }
+}
+
 .light-ray:nth-child(1) {
     transform: translate(-50%, -50%) rotate(30deg);
-    animation: lightRaySweep 8s ease-in-out 4s infinite;
-    --rotation: 30deg;
+    animation: lightRaySweep 8s ease-in-out 4s infinite, lightRayRotate1 8s ease-in-out 4s infinite;
 }
 
 .light-ray:nth-child(2) {
     transform: translate(-50%, -50%) rotate(150deg);
-    animation: lightRaySweep 8s ease-in-out 4.5s infinite;
-    --rotation: 150deg;
+    animation: lightRaySweep 8s ease-in-out 4.5s infinite, lightRayRotate2 8s ease-in-out 4.5s infinite;
 }
 
 .light-ray:nth-child(3) {
     transform: translate(-50%, -50%) rotate(270deg);
-    animation: lightRaySweep 8s ease-in-out 5s infinite;
-    --rotation: 270deg;
+    animation: lightRaySweep 8s ease-in-out 5s infinite, lightRayRotate3 8s ease-in-out 5s infinite;
 }
 
-@keyframes lightRaySweep {
-    0%, 100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--rotation, 0deg)); }
-    10% { opacity: 0.5; }
-    50% { opacity: 0.8; transform: translate(-50%, -50%) rotate(calc(var(--rotation, 0deg) + 180deg)); }
-    90% { opacity: 0.5; }
+@keyframes lightRayRotate1 {
+    0%, 100% { transform: translate(-50%, -50%) rotate(30deg); }
+    50% { transform: translate(-50%, -50%) rotate(210deg); }
+}
+
+@keyframes lightRayRotate2 {
+    0%, 100% { transform: translate(-50%, -50%) rotate(150deg); }
+    50% { transform: translate(-50%, -50%) rotate(330deg); }
+}
+
+@keyframes lightRayRotate3 {
+    0%, 100% { transform: translate(-50%, -50%) rotate(270deg); }
+    50% { transform: translate(-50%, -50%) rotate(450deg); }
 }
 
 /* Geometric Shapes */
@@ -266,8 +280,7 @@ body {
     border: 1px solid rgba(59, 130, 246, 0.2);
     top: 40%;
     right: 10%;
-    transform: rotate(45deg);
-    animation: floatRotate 18s ease-in-out infinite;
+    animation: floatRotateSquare 18s ease-in-out infinite;
 }
 
 @keyframes floatRotate {
@@ -285,6 +298,25 @@ body {
     }
     75% { 
         transform: translateY(-30px) rotate(270deg);
+        opacity: 0.25;
+    }
+}
+
+@keyframes floatRotateSquare {
+    0%, 100% { 
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.1;
+    }
+    25% { 
+        transform: translateY(-20px) rotate(135deg);
+        opacity: 0.2;
+    }
+    50% { 
+        transform: translateY(-10px) rotate(225deg);
+        opacity: 0.15;
+    }
+    75% { 
+        transform: translateY(-30px) rotate(315deg);
         opacity: 0.25;
     }
 }
