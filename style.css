@@ -2006,7 +2006,6 @@ body:not(.dark-mode) .moon-icon {
 }
 
 .social-link {
-    display: inline-block;
     animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
