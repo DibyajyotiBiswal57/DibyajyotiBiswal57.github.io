@@ -1,4 +1,152 @@
 // ============================================
+// Splash Screen with Particle Animation
+// ============================================
+(function() {
+    const splashScreen = document.getElementById('splash-screen');
+    const skipButton = document.getElementById('skip-intro');
+    const canvas = document.getElementById('particle-canvas');
+    
+    // Check if splash has been shown this session
+    const splashShown = sessionStorage.getItem('splashShown');
+    
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (splashShown || prefersReducedMotion) {
+        // Skip splash screen if already shown or reduced motion is preferred
+        if (splashScreen) {
+            splashScreen.style.display = 'none';
+        }
+        return;
+    }
+    
+    // Particle animation
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 150;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.twinkle = Math.random() * 0.02 + 0.01;
+                this.twinkleDirection = 1;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Wrap around screen
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+                
+                // Twinkling effect
+                this.opacity += this.twinkle * this.twinkleDirection;
+                if (this.opacity >= 0.8 || this.opacity <= 0.3) {
+                    this.twinkleDirection *= -1;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = `rgba(147, 197, 253, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add glow effect
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = `rgba(96, 165, 250, ${this.opacity})`;
+            }
+        }
+        
+        // Create particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // Draw connections between nearby particles
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(96, 165, 250, ${0.15 * (1 - distance / 100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+    
+    // Function to hide splash screen
+    function hideSplash() {
+        splashScreen.classList.add('fade-out');
+        setTimeout(() => {
+            splashScreen.style.display = 'none';
+            sessionStorage.setItem('splashShown', 'true');
+        }, 800);
+    }
+    
+    // Auto-hide after duration (read from CSS variable)
+    const splashDuration = parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue('--splash-duration')) || 3500;
+    const autoHideTimeout = setTimeout(hideSplash, splashDuration);
+    
+    // Skip button functionality
+    if (skipButton) {
+        skipButton.addEventListener('click', () => {
+            clearTimeout(autoHideTimeout);
+            hideSplash();
+        });
+    }
+    
+    // Allow Enter key to skip when splash is visible
+    document.addEventListener('keydown', function skipOnKey(e) {
+        if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
+            clearTimeout(autoHideTimeout);
+            hideSplash();
+            document.removeEventListener('keydown', skipOnKey);
+        }
+    });
+})();
+
+// ============================================
 // Theme Toggle Functionality
 // ============================================
 const themeToggle = document.getElementById('theme-toggle');
@@ -136,8 +284,8 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all fade-in elements
-document.querySelectorAll('.fade-in').forEach(element => {
+// Observe all fade-in, slide-up, and scale-in elements
+document.querySelectorAll('.fade-in, .slide-up, .scale-in').forEach(element => {
     observer.observe(element);
 });
 
