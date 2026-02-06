@@ -1,11 +1,9 @@
 // ============================================
-// Advanced Splash Screen with Complex Particle System
+// Terminal-Style Splash Screen
 // ============================================
 (function() {
     const splashScreen = document.getElementById('splash-screen');
     const skipButton = document.getElementById('skip-btn');
-    const enterButton = document.getElementById('enter-btn');
-    const canvas = document.getElementById('particle-canvas');
     
     // Check if splash has been shown this session
     const splashShown = sessionStorage.getItem('splashShown');
@@ -21,333 +19,63 @@
         return;
     }
     
-    // Detect mobile/low-end devices
-    const isMobile = window.innerWidth <= 768;
-    const isLowEnd = !navigator.hardwareConcurrency || navigator.hardwareConcurrency <= 4;
+    // Terminal animation
+    const terminalLines = document.querySelectorAll('.terminal-line');
+    const terminalCursor = document.querySelector('.terminal-cursor');
     
-    // Performance constants
-    const PARTICLE_COUNT_DESKTOP = 120;
-    const PARTICLE_COUNT_MOBILE = 60;
-    const PARTICLE_COUNT_LOW_END = 80;
-    const SHOOTING_STAR_COUNT_DESKTOP = 3;
-    const SHOOTING_STAR_COUNT_MOBILE = 2;
-    const SHOOTING_STAR_SPAWN_RATE_DESKTOP = 0.02; // 2% chance per frame (~1.2 stars/sec at 60fps)
-    const SHOOTING_STAR_SPAWN_RATE_MOBILE = 0.01;  // 1% chance per frame (~0.6 stars/sec at 60fps)
-    const EXPLOSION_FORCE = 20;
-    const MIN_EXPLOSION_DISTANCE = 50;
-    const EXPLOSION_DURATION_FRAMES = 30;
-    const EXPLOSION_FADE_RATE = 0.03;
-    const RESIZE_DEBOUNCE_DELAY = 250; // milliseconds
-    const PARTICLE_COLOR_GREEN_RATIO = 0.8;
-    const PARTICLE_COLOR_BLUE = 255;
+    // Animate terminal lines
+    terminalLines.forEach((line, index) => {
+        const delay = parseInt(line.getAttribute('data-delay')) || 0;
+        setTimeout(() => {
+            line.style.animationDelay = '0s';
+            line.style.opacity = '1';
+            
+            // Show loading dots and then success status
+            const statusElement = line.querySelector('.terminal-status');
+            if (statusElement) {
+                setTimeout(() => {
+                    statusElement.style.opacity = '1';
+                }, 1200);
+            }
+        }, delay);
+    });
     
-    // Adjust particle count based on device
-    let particleCount = isMobile ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT_DESKTOP;
-    if (isLowEnd && !isMobile) {
-        particleCount = PARTICLE_COUNT_LOW_END;
+    // Show cursor after all lines
+    setTimeout(() => {
+        if (terminalCursor) {
+            terminalCursor.style.opacity = '1';
+        }
+    }, 6800);
+    
+    // Function to hide splash screen
+    function hideSplash() {
+        splashScreen.classList.add('fade-out');
+        setTimeout(() => {
+            splashScreen.style.display = 'none';
+            sessionStorage.setItem('splashShown', 'true');
+        }, 1000);
     }
     
-    // Advanced Particle System
-    if (canvas) {
-        const ctx = canvas.getContext('2d', { alpha: true });
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const shootingStars = [];
-        let mouseX = canvas.width / 2;
-        let mouseY = canvas.height / 2;
-        let animationId;
-        
-        // Particle class with enhanced properties
-        class Particle {
-            constructor() {
-                this.reset();
-                // Start with random positions for initial spread
-                this.y = Math.random() * canvas.height;
-                this.opacity = Math.random() * 0.5 + 0.3;
-            }
-            
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.3;
-                this.twinkle = Math.random() * 0.015 + 0.005;
-                this.twinkleDirection = 1;
-                // Depth for parallax effect
-                this.depth = Math.random() * 0.5 + 0.5;
-            }
-            
-            update(mouseInfluence = false) {
-                this.x += this.speedX * this.depth;
-                this.y += this.speedY * this.depth;
-                
-                // Parallax effect based on mouse position
-                if (mouseInfluence && !isMobile) {
-                    const dx = mouseX - canvas.width / 2;
-                    const dy = mouseY - canvas.height / 2;
-                    this.x += dx * 0.00005 * (1 - this.depth);
-                    this.y += dy * 0.00005 * (1 - this.depth);
-                }
-                
-                // Wrap around screen
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-                
-                // Twinkling effect
-                this.opacity += this.twinkle * this.twinkleDirection;
-                if (this.opacity >= 0.8 || this.opacity <= 0.3) {
-                    this.twinkleDirection *= -1;
-                }
-            }
-            
-            draw() {
-                const brightness = this.depth * PARTICLE_COLOR_BLUE;
-                ctx.fillStyle = `rgba(${brightness}, ${brightness * PARTICLE_COLOR_GREEN_RATIO}, ${PARTICLE_COLOR_BLUE}, ${this.opacity})`;
-                
-                // Only apply shadow on desktop for performance
-                if (!isMobile && !isLowEnd) {
-                    ctx.shadowBlur = 10 * this.depth;
-                    ctx.shadowColor = `rgba(96, 165, 250, ${this.opacity * 0.6})`;
-                } else {
-                    ctx.shadowBlur = 0;
-                }
-                
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * this.depth, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        
-        // Shooting Star class
-        class ShootingStar {
-            constructor() {
-                this.reset();
-            }
-            
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height * 0.5; // Top half
-                this.length = Math.random() * 80 + 60;
-                this.speed = Math.random() * 8 + 8;
-                this.angle = Math.random() * Math.PI / 6 + Math.PI / 4; // 45-75 degrees
-                this.opacity = 1;
-                this.active = true;
-                this.trail = [];
-            }
-            
-            update() {
-                if (!this.active) return;
-                
-                this.trail.unshift({ x: this.x, y: this.y });
-                if (this.trail.length > 15) this.trail.pop();
-                
-                this.x += Math.cos(this.angle) * this.speed;
-                this.y += Math.sin(this.angle) * this.speed;
-                this.opacity -= 0.008;
-                
-                if (this.opacity <= 0 || this.x > canvas.width || this.y > canvas.height) {
-                    this.active = false;
-                }
-            }
-            
-            draw() {
-                if (!this.active || this.opacity <= 0) return;
-                
-                // Draw trail
-                for (let i = 0; i < this.trail.length; i++) {
-                    const point = this.trail[i];
-                    const trailOpacity = this.opacity * (1 - i / this.trail.length);
-                    
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${trailOpacity})`;
-                    ctx.lineWidth = 2 * (1 - i / this.trail.length);
-                    
-                    if (i > 0) {
-                        const prevPoint = this.trail[i - 1];
-                        ctx.beginPath();
-                        ctx.moveTo(prevPoint.x, prevPoint.y);
-                        ctx.lineTo(point.x, point.y);
-                        ctx.stroke();
-                    }
-                }
-                
-                // Draw star head with glow
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        
-        // Create particles
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-        
-        // Create initial shooting stars (fewer on mobile)
-        const shootingStarCount = isMobile ? SHOOTING_STAR_COUNT_MOBILE : SHOOTING_STAR_COUNT_DESKTOP;
-        for (let i = 0; i < shootingStarCount; i++) {
-            shootingStars.push(new ShootingStar());
-        }
-        
-        // Mouse tracking for parallax (only on desktop)
-        if (!isMobile) {
-            canvas.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-        }
-        
-        // Animation loop
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Update and draw particles
-            particles.forEach(particle => {
-                particle.update(!isMobile);
-                particle.draw();
-            });
-            
-            // Draw connections between nearby particles
-            const maxDistance = isMobile ? 80 : 120;
-            const maxConnections = isMobile ? 2 : 3;
-            
-            for (let i = 0; i < particles.length; i++) {
-                let connectionCount = 0;
-                for (let j = i + 1; j < particles.length; j++) {
-                    if (connectionCount >= maxConnections) break;
-                    
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < maxDistance) {
-                        const opacity = 0.15 * (1 - distance / maxDistance) * 
-                                       Math.min(particles[i].opacity, particles[j].opacity);
-                        ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.shadowBlur = 0;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                        connectionCount++;
-                    }
-                }
-            }
-            
-            // Update and draw shooting stars
-            shootingStars.forEach((star, index) => {
-                star.update();
-                star.draw();
-                
-                // Reset shooting star with controlled probability
-                if (!star.active) {
-                    const probability = isMobile ? SHOOTING_STAR_SPAWN_RATE_MOBILE : SHOOTING_STAR_SPAWN_RATE_DESKTOP;
-                    if (Math.random() < probability) {
-                        star.reset();
-                    }
-                }
-            });
-            
-            animationId = requestAnimationFrame(animate);
-        }
-        
-        animate();
-        
-        // Resize canvas on window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }, RESIZE_DEBOUNCE_DELAY);
-        });
-        
-        // Cleanup on splash hide
-        function stopAnimation() {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
-            // Clear will-change
-            if (splashScreen) {
-                splashScreen.style.willChange = 'auto';
-            }
-        }
-        
-        // Function to hide splash screen with particle explosion effect
-        function hideSplash() {
-            stopAnimation();
-            
-            // Particle explosion effect
-            particles.forEach(particle => {
-                const dx = particle.x - canvas.width / 2;
-                const dy = particle.y - canvas.height / 2;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const force = EXPLOSION_FORCE / Math.max(distance, MIN_EXPLOSION_DISTANCE);
-                particle.speedX = (dx / distance) * force;
-                particle.speedY = (dy / distance) * force;
-            });
-            
-            // Quick explosion animation
-            let explosionFrames = EXPLOSION_DURATION_FRAMES;
-            function explode() {
-                if (explosionFrames-- > 0) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    particles.forEach(particle => {
-                        particle.update(false);
-                        particle.opacity -= EXPLOSION_FADE_RATE;
-                        particle.draw();
-                    });
-                    requestAnimationFrame(explode);
-                } else {
-                    splashScreen.classList.add('fade-out');
-                    setTimeout(() => {
-                        splashScreen.style.display = 'none';
-                        sessionStorage.setItem('splashShown', 'true');
-                    }, 1000);
-                }
-            }
-            explode();
-        }
-        
-        // Auto-hide after duration
-        const splashDuration = parseInt(getComputedStyle(document.documentElement)
-            .getPropertyValue('--splash-duration')) || 10000;
-        const autoHideTimeout = setTimeout(hideSplash, splashDuration);
-        
-        // Skip and Enter button functionality
-        if (skipButton) {
-            skipButton.addEventListener('click', () => {
-                clearTimeout(autoHideTimeout);
-                hideSplash();
-            });
-        }
-        
-        if (enterButton) {
-            enterButton.addEventListener('click', () => {
-                clearTimeout(autoHideTimeout);
-                hideSplash();
-            });
-        }
-        
-        // Allow Enter key to skip
-        document.addEventListener('keydown', function skipOnKey(e) {
-            if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
-                clearTimeout(autoHideTimeout);
-                hideSplash();
-                document.removeEventListener('keydown', skipOnKey);
-            }
+    // Auto-hide after 7.5 seconds
+    const splashDuration = 7500;
+    const autoHideTimeout = setTimeout(hideSplash, splashDuration);
+    
+    // Skip button functionality
+    if (skipButton) {
+        skipButton.addEventListener('click', () => {
+            clearTimeout(autoHideTimeout);
+            hideSplash();
         });
     }
+    
+    // Allow Enter key to skip
+    document.addEventListener('keydown', function skipOnKey(e) {
+        if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
+            clearTimeout(autoHideTimeout);
+            hideSplash();
+            document.removeEventListener('keydown', skipOnKey);
+        }
+    });
 })();
 
 // ============================================
