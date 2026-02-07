@@ -28,55 +28,8 @@
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen" class="splash-screen">
-        <div class="terminal-container">
-            <div class="terminal-header">
-                <span class="terminal-title">portfolio.init</span>
-                <div class="terminal-buttons">
-                    <span class="terminal-button terminal-close"></span>
-                    <span class="terminal-button terminal-minimize"></span>
-                    <span class="terminal-button terminal-maximize"></span>
-                </div>
-            </div>
-            <div class="terminal-body">
-                <div class="terminal-line" data-delay="0">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">Initializing portfolio...</span>
-                </div>
-                <div class="terminal-line" data-delay="800">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">Loading user profile: DibyajyotiBiswal57</span>
-                </div>
-                <div class="terminal-line" data-delay="1600">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">Fetching projects<span class="loading-dots"></span></span>
-                    <span class="terminal-status success">✓ Done</span>
-                </div>
-                <div class="terminal-line" data-delay="2400">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">Loading skills database<span class="loading-dots"></span></span>
-                    <span class="terminal-status success">✓ Done</span>
-                </div>
-                <div class="terminal-line" data-delay="3200">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">Compiling achievements<span class="loading-dots"></span></span>
-                    <span class="terminal-status success">✓ Done</span>
-                </div>
-                <div class="terminal-line" data-delay="4000">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">Establishing connections<span class="loading-dots"></span></span>
-                    <span class="terminal-status success">✓ Done</span>
-                </div>
-                <div class="terminal-line" data-delay="4800">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text">System check<span class="loading-dots"></span></span>
-                    <span class="terminal-status success">✓ All systems operational</span>
-                </div>
-                <div class="terminal-line" data-delay="5800">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-text terminal-ready">Ready to showcase portfolio!</span>
-                </div>
-                <div class="terminal-cursor"></div>
-            </div>
+        <div class="boot-container" id="boot-container">
+            <!-- Boot messages will be dynamically inserted here -->
         </div>
         <button id="skip-btn" class="skip-btn" aria-label="Skip intro">Skip →</button>
     </div>
