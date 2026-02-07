@@ -85,7 +85,7 @@ body {
 }
 
 /* ============================================
-   Splash Screen - Terminal Style
+   Splash Screen - Linux Boot Style
    ============================================ */
 .splash-screen {
     position: fixed;
@@ -93,11 +93,11 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4c1d95 50%, #5b21b6 75%, #6d28d9 100%);
+    background: #000000;
     z-index: 9999;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     opacity: 1;
     transition: opacity var(--splash-fade-duration) cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
@@ -107,153 +107,58 @@ body {
     opacity: 0;
     pointer-events: none;
 }
-/* Terminal Container */
-.terminal-container {
-    width: 90%;
-    max-width: 700px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    animation: terminalSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+/* Boot Container - Fullscreen */
+.boot-container {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #d0d0d0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-@keyframes terminalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Terminal Header */
-.terminal-header {
+/* Boot Lines */
+.boot-line {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.terminal-title {
-    color: #a78bfa;
-    font-size: 0.9rem;
-    font-family: var(--font-mono);
-    font-weight: 600;
-}
-
-.terminal-buttons {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.terminal-button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.terminal-close {
-    background: #ef4444;
-}
-
-.terminal-minimize {
-    background: #f59e0b;
-}
-
-.terminal-maximize {
-    background: #10b981;
-}
-
-/* Terminal Body */
-.terminal-body {
-    padding: 1.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: #e0e7ff;
-    min-height: 300px;
-    position: relative;
-}
-
-/* Terminal Lines */
-.terminal-line {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.15rem;
     opacity: 0;
-    animation: terminalLineIn 0.3s ease-out forwards;
+    animation: bootLineIn 0.1s ease-out forwards;
+    line-height: 1.4;
 }
 
-@keyframes terminalLineIn {
+@keyframes bootLineIn {
     from {
         opacity: 0;
-        transform: translateX(-10px);
     }
     to {
         opacity: 1;
-        transform: translateX(0);
     }
 }
 
-.terminal-prompt {
-    color: #a78bfa;
-    font-weight: bold;
-    flex-shrink: 0;
-}
-
-.terminal-text {
-    color: #c7d2fe;
+.boot-text {
+    color: #d0d0d0;
     flex-grow: 1;
+    padding-right: 1rem;
 }
 
-.terminal-ready {
-    color: #86efac;
-    font-weight: 600;
-}
-
-.terminal-status {
-    margin-left: auto;
+.boot-status {
     flex-shrink: 0;
+    font-weight: bold;
+    text-align: right;
+    min-width: 80px;
 }
 
-.terminal-status.success {
-    color: #86efac;
+.status-ok {
+    color: #00ff00;
 }
 
-/* Loading Dots Animation */
-.loading-dots::after {
-    content: '';
-    animation: loadingDots 1.5s steps(4, end) infinite;
-}
-
-@keyframes loadingDots {
-    0% { content: ''; }
-    25% { content: '.'; }
-    50% { content: '..'; }
-    75% { content: '...'; }
-    100% { content: ''; }
-}
-
-/* Terminal Cursor */
-.terminal-cursor {
-    display: inline-block;
-    width: 10px;
-    height: 18px;
-    background: #a78bfa;
-    margin-left: 0.5rem;
-    animation: cursorBlink 1s step-end infinite;
-    opacity: 0;
-}
-
-@keyframes cursorBlink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+.status-failed {
+    color: #ff0000;
 }
 
 /* Skip Button */
@@ -262,27 +167,27 @@ body {
     bottom: 2rem;
     right: 2rem;
     padding: 0.75rem 1.5rem;
-    background: rgba(167, 139, 250, 0.1);
+    background: rgba(50, 50, 50, 0.8);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(167, 139, 250, 0.3);
-    border-radius: 25px;
-    color: #c7d2fe;
-    font-family: var(--font-primary);
+    border: 1px solid rgba(150, 150, 150, 0.3);
+    border-radius: 4px;
+    color: #d0d0d0;
+    font-family: var(--font-mono);
     font-weight: 500;
     font-size: 0.9rem;
     cursor: pointer;
     opacity: 0;
-    animation: fadeIn 1s ease-in-out 1s forwards;
+    animation: fadeIn 1s ease-in-out 0.5s forwards;
     transition: all var(--transition-base);
     z-index: 100;
 }
 
 .skip-btn:hover {
-    background: rgba(167, 139, 250, 0.2);
-    border-color: #a78bfa;
+    background: rgba(80, 80, 80, 0.9);
+    border-color: #ffffff;
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(167, 139, 250, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
 
 /* Utility Animations */

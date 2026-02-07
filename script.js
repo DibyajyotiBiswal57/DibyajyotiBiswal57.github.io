@@ -1,9 +1,10 @@
 // ============================================
-// Terminal-Style Splash Screen
+// Linux-Style Verbose Boot Splash Screen
 // ============================================
 (function() {
     const splashScreen = document.getElementById('splash-screen');
     const skipButton = document.getElementById('skip-btn');
+    const bootContainer = document.getElementById('boot-container');
     
     // Check if splash has been shown this session
     const splashShown = sessionStorage.getItem('splashShown');
@@ -19,33 +20,79 @@
         return;
     }
     
-    // Terminal animation
-    const terminalLines = document.querySelectorAll('.terminal-line');
-    const terminalCursor = document.querySelector('.terminal-cursor');
+    // Boot sequence messages - simulating actual loading
+    const bootMessages = [
+        { text: 'Starting portfolio system...', delay: 0, status: 'ok' },
+        { text: 'Loading core stylesheet /style.css', delay: 150, status: 'ok' },
+        { text: 'Loading Google Fonts (Inter, Space Mono)', delay: 200, status: 'ok' },
+        { text: 'Initializing favicon from GitHub', delay: 150, status: 'ok' },
+        { text: 'Loading main script /script.js', delay: 200, status: 'ok' },
+        { text: 'Parsing DOM structure', delay: 180, status: 'ok' },
+        { text: 'Initializing theme system', delay: 150, status: 'ok' },
+        { text: 'Setting up navigation menu', delay: 120, status: 'ok' },
+        { text: 'Loading hero section', delay: 140, status: 'ok' },
+        { text: 'Initializing typing animation', delay: 160, status: 'ok' },
+        { text: 'Setting up smooth scrolling', delay: 130, status: 'ok' },
+        { text: 'Configuring intersection observers', delay: 150, status: 'ok' },
+        { text: 'Loading about section', delay: 120, status: 'ok' },
+        { text: 'Loading skills section', delay: 110, status: 'ok' },
+        { text: 'Loading projects section', delay: 130, status: 'ok' },
+        { text: 'Loading badges and achievements', delay: 120, status: 'ok' },
+        { text: 'Setting up contact section', delay: 110, status: 'ok' },
+        { text: 'Initializing parallax effects', delay: 140, status: 'ok' },
+        { text: 'Configuring keyboard shortcuts', delay: 120, status: 'ok' },
+        { text: 'Setting up mouse tracking effects', delay: 130, status: 'ok' },
+        { text: 'Initializing ripple animations', delay: 110, status: 'ok' },
+        { text: 'Loading external resources', delay: 150, status: 'ok' },
+        { text: 'All systems operational', delay: 200, status: 'ok' }
+    ];
     
-    // Animate terminal lines
-    terminalLines.forEach((line, index) => {
-        const delay = parseInt(line.getAttribute('data-delay')) || 0;
-        setTimeout(() => {
-            line.style.animationDelay = '0s';
-            line.style.opacity = '1';
-            
-            // Show loading dots and then success status
-            const statusElement = line.querySelector('.terminal-status');
-            if (statusElement) {
-                setTimeout(() => {
-                    statusElement.style.opacity = '1';
-                }, 1200);
-            }
-        }, delay);
-    });
+    let currentLine = 0;
+    let autoHideTimeout;
     
-    // Show cursor after all lines
-    setTimeout(() => {
-        if (terminalCursor) {
-            terminalCursor.style.opacity = '1';
+    // Function to add a boot line
+    function addBootLine(message, status) {
+        const line = document.createElement('div');
+        line.className = 'boot-line';
+        
+        const text = document.createElement('span');
+        text.className = 'boot-text';
+        text.textContent = message;
+        
+        const statusSpan = document.createElement('span');
+        statusSpan.className = 'boot-status';
+        
+        if (status === 'ok') {
+            statusSpan.classList.add('status-ok');
+            statusSpan.textContent = '[  OK  ]';
+        } else if (status === 'failed') {
+            statusSpan.classList.add('status-failed');
+            statusSpan.textContent = '[ FAILED ]';
         }
-    }, 6800);
+        
+        line.appendChild(text);
+        line.appendChild(statusSpan);
+        bootContainer.appendChild(line);
+        
+        // Scroll to bottom
+        bootContainer.scrollTop = bootContainer.scrollHeight;
+    }
+    
+    // Function to show next boot message
+    function showNextMessage() {
+        if (currentLine >= bootMessages.length) {
+            // All messages shown, auto-hide after a delay
+            autoHideTimeout = setTimeout(hideSplash, 1500);
+            return;
+        }
+        
+        const msg = bootMessages[currentLine];
+        addBootLine(msg.text, msg.status);
+        currentLine++;
+        
+        // Schedule next message
+        setTimeout(showNextMessage, msg.delay);
+    }
     
     // Function to hide splash screen
     function hideSplash() {
@@ -56,14 +103,15 @@
         }, 1000);
     }
     
-    // Auto-hide after 7.5 seconds
-    const splashDuration = 7500;
-    const autoHideTimeout = setTimeout(hideSplash, splashDuration);
+    // Start the boot sequence
+    setTimeout(showNextMessage, 100);
     
     // Skip button functionality
     if (skipButton) {
         skipButton.addEventListener('click', () => {
-            clearTimeout(autoHideTimeout);
+            if (autoHideTimeout) {
+                clearTimeout(autoHideTimeout);
+            }
             hideSplash();
         });
     }
@@ -71,7 +119,9 @@
     // Allow Enter key to skip
     document.addEventListener('keydown', function skipOnKey(e) {
         if (e.key === 'Enter' && splashScreen && !splashScreen.classList.contains('fade-out')) {
-            clearTimeout(autoHideTimeout);
+            if (autoHideTimeout) {
+                clearTimeout(autoHideTimeout);
+            }
             hideSplash();
             document.removeEventListener('keydown', skipOnKey);
         }
