@@ -1,0 +1,27 @@
+{
+  "name": "Dibyajyoti Biswal - Developer Portfolio",
+  "short_name": "DB Portfolio",
+  "description": "Personal portfolio website of Dibyajyoti Biswal - A developer passionate about Python, AI/ML, Cybersecurity, and more",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://github.com/DibyajyotiBiswal57.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://github.com/DibyajyotiBiswal57.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "education"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
