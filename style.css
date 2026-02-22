@@ -20,21 +20,21 @@
     --gradient-start: #3b82f6;
     --gradient-end: #1d4ed8;
     --gradient-accent: #60a5fa;
-    
-    /* Font Families */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono: 'Space Mono', 'Courier New', monospace;
-    
+
+    /* Font Families with comprehensive fallbacks */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+    --font-mono: 'Space Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Courier New', 'Courier', monospace;
+
     /* Transitions - Enhanced with cubic-bezier */
     --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    
+
     /* Animation Durations */
     --duration-fast: 200ms;
     --duration-normal: 300ms;
     --duration-slow: 500ms;
-    
+
     /* Splash Screen Variables */
     --splash-duration: 7500ms;
     --splash-fade-duration: 1000ms;
@@ -68,11 +68,15 @@ body.dark-mode {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -81,8 +85,47 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     transition: background-color var(--transition-base), color var(--transition-base);
+    -webkit-transition: background-color var(--transition-base), color var(--transition-base);
+    -moz-transition: background-color var(--transition-base), color var(--transition-base);
+    -o-transition: background-color var(--transition-base), color var(--transition-base);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
+
+/* ============================================
+   Browser Compatibility Helpers
+   ============================================ */
+img {
+    max-width: 100%;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Ensure smooth scrolling works in Safari */
+@media screen and (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* CSS Grid and Flexbox fallbacks for older browsers */
+@supports not (display: grid) {
+    .about-grid,
+    .skills-grid,
+    .os-grid {
+        display: block;
+    }
+}
+
 
 /* ============================================
    Splash Screen - Linux Boot Style
@@ -169,6 +212,7 @@ body {
     padding: 0.75rem 1.5rem;
     background: rgba(50, 50, 50, 0.8);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(150, 150, 150, 0.3);
     border-radius: 4px;
     color: #d0d0d0;

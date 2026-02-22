@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser Compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="email=no">
+
+    <!-- PWA Support -->
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Dibyajyoti Biswal">
+
     <meta name="description" content="Dibyajyoti Biswal - A person who struggles with life. Learning Python, AI & ML, Cybersecurity, DSA, and more.">
     <meta name="author" content="Dibyajyoti Biswal">
     <meta property="og:title" content="Dibyajyoti Biswal - Developer Portfolio">
@@ -14,8 +28,10 @@
     
     <title>Dibyajyoti Biswal - Developer Portfolio</title>
     
-    <!-- Favicon -->
+    <!-- Favicon and App Icons -->
     <link rel="icon" href="https://github.com/DibyajyotiBiswal57.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://github.com/DibyajyotiBiswal57.png">
+    <link rel="manifest" href="manifest.json">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +40,14 @@
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- No JavaScript Fallback -->
+    <noscript>
+        <style>
+            #splash-screen { display: none !important; }
+            body { opacity: 1 !important; }
+        </style>
+    </noscript>
 </head>
 <body>
     <!-- Splash Screen -->
