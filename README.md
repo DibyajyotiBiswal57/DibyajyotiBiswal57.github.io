@@ -87,7 +87,11 @@
 
 ## Stats
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/DibyajyotiBiswal57/main/profile-3d-contrib/profile-night-rainbow.svg" />
+  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/DibyajyotiBiswal57/main/profile-3d-contrib/profile-night-rainbow.svg?t=1772477183" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/github-stats-transparent/refs/heads/output/generated/languages.svg" /> <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/github-stats-transparent/refs/heads/output/generated/overview.svg" />
 </p>
 
 <p align="center">
