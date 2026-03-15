@@ -58,20 +58,11 @@
 ## Languages and Tools
 
 <p align="center">
-<img src="https://skillicons.dev/icons?i=bash,c,cpp,cs,css,docker,dotnet,elixir,git,go,haskell,html,java,js,linux,matlab,nodejs,perl,py,pytorch,react,replit,ruby,rust,sass,tensorflow,unity,vscode" alt="Skills" />
-</p>
-
-<p align="center">
-<img src="https://cdn.simpleicons.org/huggingface/FFD21E" alt="huggingface" width="48" height="48"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jekyll/jekyll-original.svg" alt="jekyll" width="48" height="48"/>
+<img src="https://skillicons.dev/icons?i=bash,blender,c,cpp,cs,css,docker,dotnet,elixir,git,go,haskell,html,java,js,linux,matlab,perl,py,pytorch,react,replit,ruby,rust,sass,tensorflow,vscode" alt="Skills" />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original-wordmark.svg" alt="jupyter" width="48" height="48"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" alt="matplotlib" width="48" height="48"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="numpy" width="48" height="48"/>
-<img src="https://cdn.simpleicons.org/ollama/000000" alt="ollama" width="48" height="48"/>
-<img src="https://cdn.simpleicons.org/opencv/5C3EE8" alt="opencv" width="48" height="48"/>
 <img src="https://cdn.simpleicons.org/pandas/150458" alt="pandas" width="48" height="48"/>
 <img src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="scikit-learn" width="48" height="48"/>
-<img src="https://skillicons.dev/icons?i=blender" alt="blender" width="48" height="48"/>
 </p>
 
 ## Operating Systems Used
@@ -87,7 +78,7 @@
 
 ## Stats
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/DibyajyotiBiswal57/main/profile-3d-contrib/profile-night-rainbow.svg?t=1772477183" />
+  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/DibyajyotiBiswal57/main/profile-3d-contrib/profile-night-rainbow.svg?t=1773563581" />
 </p>
 
 <p align="center">
