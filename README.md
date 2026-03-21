@@ -52,21 +52,15 @@
   <a href="https://twitter.com/coder99957" target="blank"><img align="center" src="https://skillicons.dev/icons?i=twitter" alt="coder99957" height="40" width="40" /></a>
   <a href="https://youtube.com/coder99957" target="blank"><img align="center" src="https://cdn.simpleicons.org/youtube/FF0000" alt="coder99957" height="40" width="40" /></a>
   <a href="https://leetcode.com/coder99957" target="blank"><img align="center" src="https://cdn.simpleicons.org/leetcode/FFA116" alt="coder99957" height="40" width="40" /></a>
-  <a href="https://kaggle.com/coder99957" target="blank"><img align="center" src="https://cdn.simpleicons.org/kaggle/20BEFF" alt="coder99957" height="40" width="40" /></a>
-  <a href="https://replit.com/@coder99957" target="blank"><img align="center" src="https://skillicons.dev/icons?i=replit" alt="coder99957" height="40" width="40" /></a>
   <a href="mailto:coder99957@dibyajyoti.is-a.dev" target="blank"><img align="center" src="https://skillicons.dev/icons?i=gmail" alt="coder99957@gmail.com" height="40" width="40" /></a>
 </p>
 
 ## Languages and Tools
 
 <p align="center">
-<img src="https://skillicons.dev/icons?i=bash,blender,c,cpp,cs,css,docker,dotnet,elixir,git,go,haskell,html,java,js,linux,matlab,nodejs,perl,py,pytorch,react,replit,ruby,rust,sass,tensorflow,unity,vscode" alt="Skills" />
-<img src="https://cdn.simpleicons.org/huggingface/FFD21E" alt="HuggingFace" width="48" height="48"/>
+<img src="https://skillicons.dev/icons?i=bash,blender,c,cpp,cs,css,docker,dotnet,elixir,git,go,haskell,html,java,js,linux,matlab,perl,py,pytorch,react,replit,ruby,rust,sass,tensorflow,vscode" alt="Skills" />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original-wordmark.svg" alt="jupyter" width="48" height="48"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" alt="matplotlib" width="48" height="48"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="numpy" width="48" height="48"/>
-<img src="https://cdn.simpleicons.org/ollama/000000" alt="ollama" width="48" height="48"/>
-<img src="https://cdn.simpleicons.org/opencv/5C3EE8" alt="opencv" width="48" height="48"/>
 <img src="https://cdn.simpleicons.org/pandas/150458" alt="pandas" width="48" height="48"/>
 <img src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="scikit-learn" width="48" height="48"/>
 </p>
