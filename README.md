@@ -78,7 +78,7 @@
 
 ## Stats
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/DibyajyotiBiswal57/main/profile-3d-contrib/profile-night-rainbow.svg?t=1773563581" />
+  <img src="https://raw.githubusercontent.com/DibyajyotiBiswal57/DibyajyotiBiswal57/main/profile-3d-contrib/profile-night-rainbow.svg?t=1774464882" />
 </p>
 
 <p align="center">
@@ -89,5 +89,5 @@
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=DibyajyotiBiswal57&theme=github-compact&hide_border=true&custom_title=My%20contributions%20graph&days=60&area=true&radius=10" alt="Contribution Graph" />
 </p>
 <p align="center">
-  <a href = "https://holopin.io/dibyajyotibiswal57"> <img src="https://holopin.me/dibyajyotibiswal57" alt="An image of @dibyajyotibiswal57's Holopin badges, which is a link to view their full Holopin profile" /> </a>
+  <a href = "https://holopin.io/@dibyajyotibiswal57"> <img src="https://holopin.me/@dibyajyotibiswal57" alt="An image of @dibyajyotibiswal57's Holopin badges, which is a link to view their full Holopin profile" /> </a>
 </p>
