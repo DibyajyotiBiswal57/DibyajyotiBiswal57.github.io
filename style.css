@@ -40,27 +40,6 @@
     --splash-fade-duration: 1000ms;
 }
 
-/* Dark Mode Colors - Blue Theme */
-body.dark-mode {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-card: rgba(59, 130, 246, 0.1);
-    --text-primary: #dbeafe;
-    --text-secondary: #93c5fd;
-    --accent-primary: #60a5fa;
-    --accent-secondary: #93c5fd;
-    --accent-hover: #3b82f6;
-    --border-color: #1e3a8a;
-    --shadow-sm: 0 1px 3px rgba(59, 130, 246, 0.3);
-    --shadow-md: 0 4px 6px rgba(59, 130, 246, 0.4);
-    --shadow-lg: 0 10px 20px rgba(59, 130, 246, 0.5);
-    --shadow-xl: 0 20px 40px rgba(59, 130, 246, 0.6);
-    --nav-bg: rgba(15, 23, 42, 0.85);
-    --gradient-start: #60a5fa;
-    --gradient-end: #3b82f6;
-    --gradient-accent: #93c5fd;
-}
-
 /* ============================================
    Global Styles
    ============================================ */
@@ -355,69 +334,6 @@ img {
 
 .nav-link:hover::after {
     width: 100%;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all var(--transition-bounce);
-    position: relative;
-    overflow: hidden;
-}
-
-.theme-toggle::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    opacity: 0;
-    transition: opacity var(--transition-base);
-    border-radius: 50%;
-}
-
-.theme-toggle:hover::before {
-    opacity: 1;
-}
-
-.theme-toggle:hover {
-    transform: rotate(180deg) scale(1.15);
-    border-color: transparent;
-}
-
-.theme-toggle:hover svg {
-    color: #ffffff;
-}
-
-.sun-icon,
-.moon-icon {
-    color: var(--text-primary);
-    transition: all var(--transition-base);
-    position: relative;
-    z-index: 1;
-}
-
-body.dark-mode .sun-icon {
-    display: none;
-}
-
-body.dark-mode .moon-icon {
-    display: block;
-}
-
-body:not(.dark-mode) .sun-icon {
-    display: block;
-}
-
-body:not(.dark-mode) .moon-icon {
-    display: none;
 }
 
 /* ============================================
@@ -1325,6 +1241,7 @@ body:not(.dark-mode) .moon-icon {
 
 .social-link:hover {
     transform: translateY(-8px) scale(1.15) rotate(5deg);
+    background: var(--accent-primary);
     color: #ffffff;
     border-color: transparent;
     box-shadow: var(--shadow-xl), 0 0 40px rgba(59, 130, 246, 0.6);
@@ -1825,31 +1742,6 @@ body:not(.dark-mode) .moon-icon {
     /* Terminal is lightweight, no need to hide elements */
     .terminal-body {
         will-change: auto;
-    }
-}
-
-/* ============================================
-   Prefers Color Scheme
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-    :root:not(.light-mode) {
-        --bg-primary: #0f172a;
-        --bg-secondary: #1e293b;
-        --bg-card: rgba(59, 130, 246, 0.1);
-        --text-primary: #dbeafe;
-        --text-secondary: #93c5fd;
-        --accent-primary: #60a5fa;
-        --accent-secondary: #93c5fd;
-        --accent-hover: #3b82f6;
-        --border-color: #1e3a8a;
-        --shadow-sm: 0 1px 3px rgba(59, 130, 246, 0.3);
-        --shadow-md: 0 4px 6px rgba(59, 130, 246, 0.4);
-        --shadow-lg: 0 10px 20px rgba(59, 130, 246, 0.5);
-        --shadow-xl: 0 20px 40px rgba(59, 130, 246, 0.6);
-        --nav-bg: rgba(15, 23, 42, 0.85);
-        --gradient-start: #60a5fa;
-        --gradient-end: #3b82f6;
-        --gradient-accent: #93c5fd;
     }
 }
 
