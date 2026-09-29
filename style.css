@@ -2,24 +2,24 @@
    CSS Custom Properties (Variables)
    ============================================ */
 :root {
-    /* Light Mode Colors - Blue Theme */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f0f7ff;
-    --bg-card: rgba(59, 130, 246, 0.05);
-    --text-primary: #2d3748;
-    --text-secondary: #4a5568;
-    --accent-primary: #3b82f6;
-    --accent-secondary: #60a5fa;
-    --accent-hover: #2563eb;
-    --border-color: #bfdbfe;
-    --shadow-sm: 0 1px 3px rgba(59, 130, 246, 0.1);
-    --shadow-md: 0 4px 6px rgba(59, 130, 246, 0.15);
-    --shadow-lg: 0 10px 20px rgba(59, 130, 246, 0.2);
-    --shadow-xl: 0 20px 40px rgba(59, 130, 246, 0.25);
-    --nav-bg: rgba(255, 255, 255, 0.85);
-    --gradient-start: #3b82f6;
-    --gradient-end: #1d4ed8;
-    --gradient-accent: #60a5fa;
+    /* Dark Mode Colors - Blue Theme */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-card: rgba(59, 130, 246, 0.1);
+    --text-primary: #dbeafe;
+    --text-secondary: #93c5fd;
+    --accent-primary: #60a5fa;
+    --accent-secondary: #93c5fd;
+    --accent-hover: #3b82f6;
+    --border-color: #1e3a8a;
+    --shadow-sm: 0 1px 3px rgba(59, 130, 246, 0.3);
+    --shadow-md: 0 4px 6px rgba(59, 130, 246, 0.4);
+    --shadow-lg: 0 10px 20px rgba(59, 130, 246, 0.5);
+    --shadow-xl: 0 20px 40px rgba(59, 130, 246, 0.6);
+    --nav-bg: rgba(15, 23, 42, 0.85);
+    --gradient-start: #60a5fa;
+    --gradient-end: #3b82f6;
+    --gradient-accent: #93c5fd;
 
     /* Font Families with comprehensive fallbacks */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
