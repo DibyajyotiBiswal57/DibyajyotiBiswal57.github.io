@@ -28,7 +28,7 @@
         { text: 'Initializing favicon from GitHub', delay: 150, status: 'ok' },
         { text: 'Loading main script /script.js', delay: 200, status: 'ok' },
         { text: 'Parsing DOM structure', delay: 180, status: 'ok' },
-        { text: 'Initializing theme system', delay: 150, status: 'ok' },
+        { text: 'Initializing visual styles', delay: 150, status: 'ok' },
         { text: 'Setting up navigation menu', delay: 120, status: 'ok' },
         { text: 'Loading hero section', delay: 140, status: 'ok' },
         { text: 'Initializing typing animation', delay: 160, status: 'ok' },
@@ -127,57 +127,6 @@
         }
     });
 })();
-
-// ============================================
-// Theme Toggle Functionality
-// ============================================
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-// Check for saved theme preference or default to system preference
-const savedTheme = localStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-// Initialize theme
-if (savedTheme) {
-    body.classList.toggle('dark-mode', savedTheme === 'dark');
-    body.classList.toggle('light-mode', savedTheme === 'light');
-} else if (prefersDark) {
-    body.classList.add('dark-mode');
-} else {
-    body.classList.add('light-mode');
-}
-
-// Toggle theme on button click
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    const isDark = body.classList.contains('dark-mode');
-    
-    // Also manage light-mode class to override prefers-color-scheme
-    if (isDark) {
-        body.classList.remove('light-mode');
-    } else {
-        body.classList.add('light-mode');
-    }
-    
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
-    // Update quote image theme
-    updateQuoteTheme(isDark);
-});
-
-// Update quote image based on theme
-function updateQuoteTheme(isDark) {
-    const quoteImg = document.querySelector('.quote-img');
-    if (quoteImg) {
-        const theme = isDark ? 'dark' : 'light';
-        const currentSrc = quoteImg.src;
-        const newSrc = currentSrc.replace(/theme=\w+/, `theme=${theme}`);
-        if (currentSrc !== newSrc) {
-            quoteImg.src = newSrc;
-        }
-    }
-}
 
 // ============================================
 // Typing Animation
@@ -394,18 +343,6 @@ if (!('loading' in HTMLImageElement.prototype)) {
 console.log('%c👋 Hello, curious developer!', 'color: #58a6ff; font-size: 20px; font-weight: bold;');
 console.log('%cInterested in the code? Check out the repository!', 'color: #30a5f7; font-size: 14px;');
 console.log('%chttps://github.com/DibyajyotiBiswal57', 'color: #c9d1d9; font-size: 12px;');
-
-// ============================================
-// Keyboard Accessibility
-// ============================================
-document.addEventListener('keydown', (e) => {
-    // Press 'T' to toggle theme
-    if (e.key === 't' || e.key === 'T') {
-        if (!e.target.matches('input, textarea')) {
-            themeToggle.click();
-        }
-    }
-});
 
 // ============================================
 // Preload critical resources
